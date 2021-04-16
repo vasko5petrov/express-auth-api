@@ -1,0 +1,19 @@
+{
+  "name": "express-server-boilerplate",
+  "version": "1.0.0",
+  "description": "Express server perfect for starting a new project",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasko5petrov/express-server-boilerplate.git"
+  },
+  "author": "Vasko Petrov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vasko5petrov/express-server-boilerplate/issues"
+  },
+  "homepage": "https://github.com/vasko5petrov/express-server-boilerplate#readme"
+}
