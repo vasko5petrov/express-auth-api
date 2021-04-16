@@ -1,6 +1,7 @@
 import express from 'express';
-import { serverPort } from './configs';
+import { DB_URI, serverPort } from './configs';
 import routes from './routes';
+import { connect as DBconnect, connection as DB } from 'mongoose';
 import { NotFoundMiddleware, ErrorMiddleware } from './middlewares';
 
 const app = express();
@@ -14,7 +15,15 @@ app.use('/api', routes);
 app.use(NotFoundMiddleware);
 app.use(ErrorMiddleware);
 
-// Start server
-app.listen(serverPort, () => {
-    console.log(`Listening on port ${serverPort}`);
+// Database connection
+DBconnect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+DB.once('open', () => {
+    console.log(`Connected to database: ${DB.name}`);
+
+    // Start server
+    app.listen(serverPort, () => {
+        console.log(`Listening on port ${serverPort}`);
+    });
 });
+DB.on('error', (err) => console.log(err));
