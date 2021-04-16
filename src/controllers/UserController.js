@@ -1,5 +1,6 @@
 import User from '../models/UserSchema';
 import HttpException from '../exceptions/HttpException';
+import { registerValidation }  from '../utils/validations/userValidations';
 
 // - GET - /getUser?id={i} # returns a user with id
 export const getUser = async (req, res, next) => {
@@ -19,6 +20,10 @@ export const getUser = async (req, res, next) => {
 
 // - POST - /createUser # creates a user
 export const createUser = async (req, res, next) => {
+    const { error } = registerValidation(req.body);
+
+    if (error) return next(new HttpException(400, error.message));
+
     const emailExist = await User.findOne({Email: req.body.Email});
     if (emailExist) return next(new HttpException(400, "User with this email already exist"));
 
