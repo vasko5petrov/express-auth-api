@@ -1,15 +1,16 @@
 import express from 'express';
 import { serverPort } from './configs';
+import routes from './routes';
 import { NotFoundMiddleware, ErrorMiddleware } from './middlewares';
 
 const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res, nex) => {
-    res.send('Server running...');
-});
+// Routes 
+app.use('/api', routes);
 
+// Middlewares
 app.use(NotFoundMiddleware);
 app.use(ErrorMiddleware);
 
