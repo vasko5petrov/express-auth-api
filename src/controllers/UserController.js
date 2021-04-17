@@ -1,6 +1,7 @@
 import User from '../models/UserSchema';
 import HttpException from '../exceptions/HttpException';
 import { registerValidation }  from '../utils/validations/userValidations';
+import bcrypt from 'bcrypt';
 
 // - GET - /getUser?id={i} # returns a user with id
 export const getUser = async (req, res, next) => {
@@ -27,11 +28,14 @@ export const createUser = async (req, res, next) => {
     const emailExist = await User.findOne({Email: req.body.Email});
     if (emailExist) return next(new HttpException(400, "User with this email already exist"));
 
-    const user = new User(req.body);
     try {
-        const createdUser = await user.save();
+        let user = new User(req.body);
+        const salt = await bcrypt.genSalt(10);
+        user.Password = await bcrypt.hash(user.Password, salt);
+        
+        await user.save();
         res.status(200).send({Message: "Account successfully created"});
     } catch (err) {
-        res.send(err);
+        return next(new HttpException(400, err.message));
     }
 };
