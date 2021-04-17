@@ -1,6 +1,7 @@
 import User from '../models/UserSchema';
 import HttpException from '../exceptions/HttpException';
 import { registerValidation }  from '../utils/validations/userValidations';
+import generateAccessToken from '../utils/helpers/generateAccessToken';
 import bcrypt from 'bcrypt';
 
 // - GET - /getUser?id={i} # returns a user with id
@@ -35,6 +36,24 @@ export const createUser = async (req, res, next) => {
         
         await user.save();
         res.status(200).send({Message: "Account successfully created"});
+    } catch (err) {
+        return next(new HttpException(400, err.message));
+    }
+};
+
+// - POST - /authenticate # auth a user
+export const authenticate = async (req, res, next) => {
+
+	if(!req.body.Email || !req.body.Password) return next(new HttpException(400, 'Please fill all fields'));
+
+    try {
+        const user = await User.findOne({Email: req.body.Email});
+        if (!user) return next(new HttpException(400, 'User not found'));
+        const passwordMatches = await bcrypt.compare(req.body.Password, user.Password);
+        if (passwordMatches) {
+            const token = generateAccessToken(user);
+            res.json(`Bearer ${token}`);
+        }
     } catch (err) {
         return next(new HttpException(400, err.message));
     }
