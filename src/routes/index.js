@@ -1,6 +1,7 @@
 import express from 'express';
-const router = express.Router();
 import * as UserController from '../controllers/UserController';
+
+const router = express.Router();
 
 // User routes
 router.get('/getUser', UserController.getUser);
