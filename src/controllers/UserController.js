@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 // - GET - /getUser?id={i} # returns a user with id
 export const getUser = async (req, res, next) => {
     try {
-        const user = await User.findById(req.query.id);
+        const user = await User.findById(req.user._id);
 
         res.send({
             FirstName: user.FirstName,
@@ -16,7 +16,7 @@ export const getUser = async (req, res, next) => {
             CreatedAt: user.createdAt
         });
     } catch (err) {
-        next(new HttpException(404, `User with ID ${req.query.id} was not found`));
+        next(new HttpException(404, `User was not found`));
     }
 };
 
@@ -35,7 +35,7 @@ export const createUser = async (req, res, next) => {
         user.Password = await bcrypt.hash(user.Password, salt);
         
         await user.save();
-        res.status(200).send({Message: "Account successfully created"});
+        res.status(200).send({message: 'Account successfully created'});
     } catch (err) {
         return next(new HttpException(400, err.message));
     }
@@ -52,7 +52,11 @@ export const authenticate = async (req, res, next) => {
         const passwordMatches = await bcrypt.compare(req.body.Password, user.Password);
         if (passwordMatches) {
             const token = generateAccessToken(user);
-            res.json(`Bearer ${token}`);
+            res.json({
+                authToken: `Bearer ${token}`
+            });
+        } else {
+            return next(new HttpException(400, 'Incorrect password'));
         }
     } catch (err) {
         return next(new HttpException(400, err.message));
