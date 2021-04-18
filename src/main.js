@@ -1,29 +1,25 @@
-import express from 'express';
-import { DB_URI, serverPort } from './configs';
-import routes from './routes';
-import { connect as DBconnect, connection as DB } from 'mongoose';
-import { NotFoundMiddleware, ErrorMiddleware } from './middlewares';
-
-const app = express();
-
-app.use(express.json());
-
-// Routes 
-app.use('/api', routes);
-
-// Middlewares
-app.use(NotFoundMiddleware);
-app.use(ErrorMiddleware);
+import { APP_PORT, REDIS_OPTIONS, SESSION_OPTIONS, DB_URI, DB_OPTIONS } from './configs';
+import session from 'express-session';
+import connectRedis from 'connect-redis';
+import Redis from 'ioredis';
+import { connect, connection as DB } from 'mongoose';
+import createApp from './app';
 
 // Database connection
-DBconnect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+connect(DB_URI, DB_OPTIONS);
 
 DB.once('open', () => {
     console.log(`Connected to database: ${DB.name}`);
 
+    const RedisStore = connectRedis(session);
+    const client = new Redis(REDIS_OPTIONS);
+    const store = new RedisStore({ client });
+    
+    const app = createApp(store);
+
     // Start server
-    app.listen(serverPort, () => {
-        console.log(`Listening on port ${serverPort}`);
+    app.listen(APP_PORT, () => {
+        console.log(`Listening on port ${APP_PORT}`);
     });
 });
 DB.on('error', (err) => console.log(err));

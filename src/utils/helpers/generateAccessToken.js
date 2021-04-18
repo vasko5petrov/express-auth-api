@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const generateAccessToken = (user) => jwt.sign(user.toJSON(), process.env.TOKEN_SECRET, { expiresIn: 604800 });
+// Token expires after 3 days
+const generateAccessToken = (user) => jwt.sign(user.toJSON(), process.env.TOKEN_SECRET, { expiresIn: 259200 });
 
 export default generateAccessToken;
