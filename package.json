@@ -1,5 +1,5 @@
 {
-  "name": "express-server-boilerplate",
+  "name": "express-auth-api",
   "version": "1.0.0",
   "description": "Express server perfect for starting a new project",
   "main": "main.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vasko5petrov/express-server-boilerplate.git"
+    "url": "git+https://github.com/vasko5petrov/express-auth-api.git"
   },
   "author": "Vasko Petrov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vasko5petrov/express-server-boilerplate/issues"
+    "url": "https://github.com/vasko5petrov/express-auth-api/issues"
   },
-  "homepage": "https://github.com/vasko5petrov/express-server-boilerplate#readme",
+  "homepage": "https://github.com/vasko5petrov/express-auth-api#readme",
   "devDependencies": {
     "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.15",
