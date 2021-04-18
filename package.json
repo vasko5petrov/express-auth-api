@@ -37,7 +37,6 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "ioredis": "^4.26.0",
-    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.4"
   }
 }

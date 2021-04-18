@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { hash, compare } from 'bcrypt';
 
 export const UserSchema = new Schema({
     FirstName: {type: String, required: true},
@@ -8,5 +9,15 @@ export const UserSchema = new Schema({
 }, {
     timestamps: true
 });
+
+UserSchema.pre('save', async function() {
+    if(this.isModified('Password')) {
+        this.Password = await hash(this.Password, 12);
+    }
+});
+
+UserSchema.methods.matchesPassword = function(password) {
+    return compare(password, this.Password);
+}
 
 export default model('User', UserSchema);
