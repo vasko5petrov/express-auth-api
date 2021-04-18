@@ -6,7 +6,7 @@ import { logIn, logOut } from '../auth';
 // - GET - /getUser?id={i} # returns a user with id
 export const getUser = async (req, res, next) => {
     try {
-        const user = await User.findById(req.user._id).select('-Password -__v');
+        const user = await User.findById(req.session.userId).select('-Password -__v');
 
         res.json(user);
     } catch (err) {
