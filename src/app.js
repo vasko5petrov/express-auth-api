@@ -1,6 +1,6 @@
 import express from 'express';
 import routes from './routes';
-import { NotFoundMiddleware, ErrorMiddleware } from './middlewares';
+import { NotFoundMiddleware, ErrorMiddleware, active } from './middlewares';
 import session from 'express-session';
 import { SESSION_OPTIONS } from './configs';
 
@@ -16,6 +16,8 @@ export default (store) => {
             store
         })
     );
+
+    app.use(active);
 
     // Routes 
     app.use('/api', routes);

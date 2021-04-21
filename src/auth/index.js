@@ -2,6 +2,7 @@ import { SESSION_NAME } from "../configs/session";
 
 export const logIn = (req, userId) => {
     req.session.userId = userId;
+    req.session.createdAt = Date.now();
 };
 
 export const logOut = (req, res) => {

@@ -1,4 +1,4 @@
-import { APP_PORT, REDIS_OPTIONS, SESSION_OPTIONS, DB_URI, DB_OPTIONS } from './configs';
+import { APP_PORT, REDIS_OPTIONS, DB_URI, DB_OPTIONS } from './configs';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import Redis from 'ioredis';

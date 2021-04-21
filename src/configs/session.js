@@ -1,6 +1,10 @@
 import { IN_PROD } from "./app";
 
-const HALF_HOUR = 1000 * 60 * 30;
+const ONE_HOUR = 1000 * 60 * 60;
+const EIGHT_HOURS = ONE_HOUR * 8;
+const HALF_HOUR = ONE_HOUR / 2;
+
+export const SESSION_ABSOLUTE_TIMEOUT = +(process.env.SESSION_ABSOLUTE_TIMEOUT || EIGHT_HOURS);
 
 export const {
     SESSION_SECRET = 'secretString',
