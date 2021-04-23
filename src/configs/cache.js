@@ -4,11 +4,11 @@ dotenv.config();
 const {
     REDIS_PORT = 6379,
     REDIS_HOST = 'localhost',
-    REDIST_PASSWORD = 'secretString'
+    REDIS_PASSWORD = 'secretString'
 } = process.env;
 
 export const REDIS_OPTIONS = {
     port: +REDIS_PORT,
     host: REDIS_HOST,
-    password: REDIST_PASSWORD
+    password: REDIS_PASSWORD
 };
