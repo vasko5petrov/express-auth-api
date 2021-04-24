@@ -41,7 +41,7 @@ export const authenticate = async (req, res, next) => {
 
         const { Email, Password } = req.body;
         const user = await User.findOne({Email});
-        if (!user || !user.matchesPassword(Password)) {
+        if (!user || !(await user.matchesPassword(Password))) {
             return next(new HttpException(400, 'Incorrect email or password'));
         }
         logIn(req, user.id);

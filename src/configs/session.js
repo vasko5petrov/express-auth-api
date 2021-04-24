@@ -1,5 +1,3 @@
-import { IN_PROD } from "./app";
-
 const ONE_HOUR = 1000 * 60 * 60;
 const EIGHT_HOURS = ONE_HOUR * 8;
 const HALF_HOUR = ONE_HOUR / 2;
@@ -17,7 +15,7 @@ export const SESSION_OPTIONS = {
     name: SESSION_NAME,
     cookie: {
         maxAge: +SESSION_IDLE_TIMEOUT,
-        secure: IN_PROD,
+        secure: false,
         sameSite: true
     },
     rolling: true,
