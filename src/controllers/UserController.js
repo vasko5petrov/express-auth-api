@@ -21,7 +21,8 @@ export const createUser = async (req, res, next) => {
 
         if (error) return next(new HttpException(400, error.message));
 
-        const emailExist = await User.exists({Email: req.body.Email});
+        const emailExist = await User.exists({email: req.body.email});
+        console.log(emailExist);
         if (emailExist) return next(new HttpException(400, 'User with this email already exist'));
 
         let user = await User.create(req.body);
@@ -39,9 +40,9 @@ export const authenticate = async (req, res, next) => {
 
         if (error) return next(new HttpException(400, error.message));
 
-        const { Email, Password } = req.body;
-        const user = await User.findOne({Email});
-        if (!user || !(await user.matchesPassword(Password))) {
+        const { email, password } = req.body;
+        const user = await User.findOne({email});
+        if (!user || !(await user.matchesPassword(password))) {
             return next(new HttpException(400, 'Incorrect email or password'));
         }
         logIn(req, user.id);
