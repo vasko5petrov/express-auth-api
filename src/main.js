@@ -1,4 +1,4 @@
-import { APP_PORT, REDIS_OPTIONS, DB_URI, DB_OPTIONS } from './configs';
+import { PORT, REDIS_OPTIONS, DB_URI, DB_OPTIONS } from './configs';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import Redis from 'ioredis';
@@ -18,8 +18,8 @@ DB.once('open', () => {
     const app = createApp(store);
 
     // Start server
-    app.listen(APP_PORT, () => {
-        console.log(`Listening on port ${APP_PORT}`);
+    app.listen(PORT, () => {
+        console.log(`Listening on port ${PORT}`);
     });
 });
 DB.on('error', (err) => console.log(err));
