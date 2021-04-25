@@ -15,4 +15,9 @@ export const logOut = (req, res) => {
     })
 };
 
+export const markAsVerified = async (user) => {
+    user.verifiedAt = Date.now();
+    await user.save();
+}
+
 export const isLoggedIn = (req) => !!req.session.userId;

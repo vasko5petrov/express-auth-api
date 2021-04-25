@@ -9,5 +9,7 @@ router.post('/createUser', quest, UserController.createUser);
 router.post('/authenticate', quest, UserController.authenticate);
 router.post('/logout', auth, UserController.logout);
 router.get('/getUser', auth, UserController.getUser);
+router.post('/email/verify', UserController.verifyEmail);
+router.post('/email/resend', UserController.resendVerify);
 
 export default router;

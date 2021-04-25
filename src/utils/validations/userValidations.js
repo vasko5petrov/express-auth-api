@@ -1,5 +1,6 @@
 import Joi from '@hapi/joi';
 import { validPassword } from './validationUtils';
+import { EMAIL_VERIFICATION_TOKEN_BYTES, EMAIL_VERIFICATION_SIGNATURE_BYTES } from '../../configs';
 
 const firstName = Joi.string().min(2).max(128).trim().required();
 const lastName = Joi.string().min(2).max(128).trim().required();
@@ -27,3 +28,14 @@ export const loginValidation = (data) => {
 
     return schema.validate(data, { abortEarly: false });
 };
+
+export const verifyEmailValidation = (data) => {
+    const schema = Joi.object({
+        id: Joi.string().required(),
+        token: Joi.string().length(EMAIL_VERIFICATION_TOKEN_BYTES).required(),
+        expires: Joi.date().timestamp().required(),
+        signature: Joi.string().length(EMAIL_VERIFICATION_SIGNATURE_BYTES).required()
+    });
+
+    return schema.validate(data, { abortEarly: false });
+}
