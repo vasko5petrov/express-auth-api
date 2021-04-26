@@ -8,7 +8,7 @@ export const getUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.session.userId)
 
-        res.json(user);
+        res.status(200).json({message: 'Success', user});
     } catch (err) {
         next(new HttpException(404, `User was not found`));
     }
@@ -77,7 +77,7 @@ export const verifyEmail = async(req, res, next) => {
     try {
         const { error } = verifyEmailValidation(req.body);
 
-        if (error) return next(new HttpException(400, error.message));
+        if (error) return next(new HttpException(400, 'Invalid verification link'));
 
         const { id } = req.body;
 
