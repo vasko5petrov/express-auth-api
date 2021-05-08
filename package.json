@@ -38,6 +38,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "ioredis": "^4.26.0",
-    "mongoose": "^5.12.4"
+    "mongoose": "^5.12.4",
+    "nodemailer": "^6.6.0"
   }
 }

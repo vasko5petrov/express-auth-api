@@ -2,6 +2,8 @@ import User from '../models/UserSchema';
 import HttpException from '../exceptions/HttpException';
 import { registerValidation, loginValidation, verifyEmailValidation }  from '../utils/validations/userValidations';
 import { logIn, logOut, markAsVerified } from '../auth';
+import { sendMail } from '../mail';
+import { verifyEmailTemplate } from '../utils/generateEmailTemplates';
 
 // - GET - /getUser?id={i} # returns a user with id
 export const getUser = async (req, res, next) => {
@@ -28,8 +30,13 @@ export const createUser = async (req, res, next) => {
 
         const link = user.generateVerificationUrl();
 
-        // Sent email with the activation link
-        console.log(link);
+        await sendMail({
+            to: req.body.email,
+            subject: 'Verify your email address',
+            html: verifyEmailTemplate(link)
+        });
+
+        logIn(req, user.id);
 
         res.status(200).json({message: 'Account successfully created'});
     } catch (err) {
@@ -115,8 +122,12 @@ export const resendVerify = async(req, res, next) => {
 
         const link = user.generateVerificationUrl();
 
-        // Sent email with the activation link
-        console.log(link);
+        await sendMail({
+            to: email,
+            subject: 'Verify your email address',
+            html: verifyEmailTemplate(link)
+        });
+
 
         res.status(200).json({message: 'Activation link was sent to your email'});
     } catch (err) {
